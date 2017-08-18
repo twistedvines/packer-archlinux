@@ -19,3 +19,8 @@ timedatectl set-ntp true
 
 echo "creating disk..."
 create_disk
+
+echo "mounting filesystems..."
+mount /dev/sda2 /mnt
+mkdir /mnt/boot
+mount /dev/sda1 /mnt/boot
