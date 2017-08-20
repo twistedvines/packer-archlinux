@@ -56,8 +56,18 @@
     {
       "type": "shell",
       "script": "./scripts/install.sh"
+    },
+    {
+      "type": "shell",
+      "script": "./scripts/configure.sh"
     }
   ],
 
-  "post-processors": []
+  "post-processors": [
+    {
+      "type": "compress",
+      "compression_level": 4,
+      "output": "./build/arch-linux.tar.gz"
+    }
+  ]
 }
