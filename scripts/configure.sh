@@ -36,8 +36,8 @@ set_hostname() {
 
 set_root_password() {
   password="$(run_in_chroot openssl rand -base64 18)"
+  echo "root:$password" | run_in_chroot chpasswd
   echo "root password for new build is $password"
-  run_in_chroot echo "root:$password" | chpasswd
 }
 
 gen_fstab
