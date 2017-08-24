@@ -34,8 +34,18 @@ set_hostname() {
   run_in_chroot echo "arch-linux" >> /etc/hostname
 }
 
+enable_dhcpcd() {
+  run_in_chroot systemctl enable dhcpcd.service
+}
+
+enable_sshd() {
+  run_in_chroot systemctl enable sshd.service
+  sed -i 's/#PermitRootLogin .*/PermitRootLogin yes/g' '/mnt/etc/ssh/sshd_config'
+  sed -i 's/#PasswordAuthentication .*/PasswordAuthentication yes/g' '/mnt/etc/ssh/sshd_config'
+}
+
 set_root_password() {
-  password="$(openssl rand -base64 18)"
+  password="$(head /dev/urandom | tr -dc 'a-zA-Z0-9' | head -c16)"
   echo "root:${password}" | run_in_chroot chpasswd
   echo "root password for new build is ${password}"
 }
@@ -46,4 +56,6 @@ configure_timezone
 configure_locales
 configure_keyboard
 set_hostname
+enable_dhcpcd
+enable_sshd
 set_root_password
