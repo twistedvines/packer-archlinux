@@ -27,11 +27,11 @@ configure_locales() {
 }
 
 configure_keyboard() {
-  run_in_chroot echo "KEYMAP=uk" >> /etc/vconsole.conf
+  echo "KEYMAP=uk" | run_in_chroot tee -a /etc/vconsole.conf
 }
 
 set_hostname() {
-  run_in_chroot echo "arch-linux" >> /etc/hostname
+  echo "arch-linux" | run_in_chroot tee /etc/hostname
 }
 
 enable_dhcpcd() {
