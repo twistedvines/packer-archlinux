@@ -44,6 +44,14 @@ enable_sshd() {
   sed -i 's/#PasswordAuthentication .*/PasswordAuthentication yes/g' '/mnt/etc/ssh/sshd_config'
 }
 
+configure_mirrors() {
+  mv /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.all
+  sed -i 's/^#Server/Server/g' /etc/pacman.d/mirrorlist.all
+  rankmirrors -n 3 /etc/pacman.d/mirrorlist.all > /etc/pacman.d/mirrorlist
+  grep --no-group-separator -A1 'United Kingdom' \
+    /etc/pacman.d/mirrorlist.all >> /etc/pacman.d/mirrorlist
+}
+
 set_root_password() {
   password="$(head /dev/urandom | tr -dc 'a-zA-Z0-9' | head -c16)"
   echo "root:${password}" | run_in_chroot chpasswd
@@ -58,4 +66,5 @@ configure_keyboard
 set_hostname
 enable_dhcpcd
 enable_sshd
+configure_mirrors
 set_root_password
