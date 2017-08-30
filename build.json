@@ -57,6 +57,9 @@
       "type": "shell",
       "script": "./scripts/install.sh"
     },
+    { "type": "shell",
+      "script": "./scripts/install_guest_additions.sh"
+    },
     {
       "type": "shell",
       "script": "./scripts/configure.sh"
