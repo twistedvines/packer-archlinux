@@ -61,6 +61,11 @@
       "script": "./scripts/install_guest_additions.sh"
     },
     {
+      "type": "file",
+      "source": "./files/insecure_public_key",
+      "destination": "/tmp/insecure_public_key"
+    },
+    {
       "type": "shell",
       "script": "./scripts/configure.sh"
     }

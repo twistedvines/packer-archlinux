@@ -7,7 +7,7 @@ run_in_chroot() {
 
 echo "Beginning installation..."
 echo "pacstrapping using base installation files..."
-pacstrap /mnt base grub openssh ntp linux
+pacstrap /mnt base grub openssh ntp linux sudo
 # install separately to ensure the headers are the same version as the
 # latest kernel
 pacstrap /mnt linux-headers

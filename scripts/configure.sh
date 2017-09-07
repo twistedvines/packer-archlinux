@@ -58,6 +58,22 @@ set_root_password() {
   echo "root password for new build is ${password}"
 }
 
+create_vagrant_user() {
+  run_in_chroot groupadd vagrant
+  run_in_chroot useradd -m -g vagrant -s /bin/bash vagrant
+  echo "vagrant       ALL=NOPASSWD: ALL" | run_in_chroot tee -a /etc/sudoers.d/vagrant > /dev/null
+  if [ -f /tmp/insecure_public_key ]; then
+    run_in_chroot mkdir -p /home/vagrant/.ssh
+    cat /tmp/insecure_public_key | run_in_chroot tee -a /home/vagrant/.ssh/authorized_keys
+    run_in_chroot chown -R vagrant: /home/vagrant/.ssh
+    run_in_chroot chmod 600 /home/vagrant/.ssh/authorized_keys
+    rm /tmp/insecure_public_key
+  else
+    echo "Cannot create vagrant user: no insecure public key has been provided!"
+    return 1
+  fi
+}
+
 gen_fstab
 
 configure_timezone
@@ -68,3 +84,4 @@ enable_dhcpcd
 enable_sshd
 configure_mirrors
 set_root_password
+create_vagrant_user
