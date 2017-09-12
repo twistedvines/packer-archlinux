@@ -64,7 +64,7 @@ create_vagrant_user() {
   echo "vagrant       ALL=NOPASSWD: ALL" | run_in_chroot tee -a /etc/sudoers.d/vagrant > /dev/null
   if [ -f /tmp/insecure_public_key ]; then
     run_in_chroot mkdir -p /home/vagrant/.ssh
-    cat /tmp/insecure_public_key | run_in_chroot tee -a /home/vagrant/.ssh/authorized_keys
+    cat /tmp/insecure_public_key | run_in_chroot tee -a /home/vagrant/.ssh/authorized_keys > /dev/null
     run_in_chroot chown -R vagrant: /home/vagrant/.ssh
     run_in_chroot chmod 600 /home/vagrant/.ssh/authorized_keys
     rm /tmp/insecure_public_key
