@@ -58,10 +58,16 @@ set_root_password() {
   echo "root password for new build is ${password}"
 }
 
+create_nopasswd_group() {
+  run_in_chroot groupadd nopasswd
+  echo "%nopasswd       ALL=NOPASSWD: ALL" | \
+    run_in_chroot tee -a /etc/sudoers.d/nopasswd > /dev/null
+}
+
 create_vagrant_user() {
   run_in_chroot groupadd vagrant
   run_in_chroot useradd -m -g vagrant -s /bin/bash vagrant
-  echo "vagrant       ALL=NOPASSWD: ALL" | run_in_chroot tee -a /etc/sudoers.d/vagrant > /dev/null
+  run_in_chroot usermod -a -G nopasswd vagrant
   if [ -f /tmp/insecure_public_key ]; then
     run_in_chroot mkdir -p /home/vagrant/.ssh
     cat /tmp/insecure_public_key | run_in_chroot tee -a /home/vagrant/.ssh/authorized_keys > /dev/null
@@ -84,4 +90,5 @@ enable_dhcpcd
 enable_sshd
 configure_mirrors
 set_root_password
+create_nopasswd_group
 create_vagrant_user
