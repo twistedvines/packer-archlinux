@@ -22,5 +22,9 @@ create_disk
 
 echo "mounting filesystems..."
 mount /dev/sda2 /mnt
+mkdir /mnt/var
+mount /dev/sda3 /mnt/var
+mkdir /mnt/home
+mount /dev/sda4 /mnt/home
 mkdir /mnt/boot
 mount /dev/sda1 /mnt/boot
