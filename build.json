@@ -51,11 +51,15 @@
   "provisioners": [
     {
       "type": "shell",
-      "script": "./scripts/pre-install.sh"
+      "inline": ["env"]
     },
     {
       "type": "shell",
-      "script": "./scripts/install.sh"
+      "script": "./scripts/arch-install-scripts/pre-install.sh"
+    },
+    {
+      "type": "shell",
+      "script": "./scripts/arch-install-scripts/install.sh"
     },
     { "type": "shell",
       "script": "./scripts/install_guest_additions.sh"
@@ -67,7 +71,7 @@
     },
     {
       "type": "shell",
-      "script": "./scripts/configure.sh"
+      "script": "./scripts/arch-install-scripts/configure.sh"
     }
   ],
 

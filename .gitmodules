@@ -1,0 +1,3 @@
+[submodule "scripts/arch-install-scripts"]
+	path = scripts/arch-install-scripts
+	url = git@github.com:twistedvines/arch-install.git
