@@ -51,10 +51,18 @@ get_md5_checksum() {
 
 iso_date="$(date +%Y.%m.)01"
 iso_path="$(fetch_latest_iso "$iso_date")"
+
 fetch_latest_iso_checksums
 checksums="$(cat "${project_dir}/iso/md5sums.txt")"
 md5="$(get_md5_checksum "$checksums")"
 post_processors="$(add_relevant_post_processors $@)"
+
+vm_name="packer-arch-linux-$(date +%Y%m%d%H%M%S)"
+
 cd "$project_dir"
 echo "$build_json" | jq ".\"post-processors\" = $post_processors" | \
-  packer build -var "iso_checksum=${md5}" -var "local_iso_path=${iso_path}" -force -
+  packer build \
+    -var "iso_checksum=${md5}" \
+    -var "local_iso_path=${iso_path}" \
+    -var "vm_name=${vm_name}" \
+    -force -
