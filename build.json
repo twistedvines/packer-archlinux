@@ -1,9 +1,6 @@
 {
   "variables": {
-    "local_iso_path": "iso/archlinux-2017.08.01-x86_64.iso",
-    "remote_iso_path": "http://mirror.bytemark.co.uk/archlinux/iso/2017.08.01/archlinux-2017.08.01-x86_64.iso",
-    "iso_checksum_type": "sha256",
-    "iso_checksum": "b762ad79a018724338617579ecef28f258488adededea68a637115f374d9b7a4",
+    "iso_checksum_type": "md5",
     "memory": "512",
     "cores": "1",
     "disk_size": "20000",
