@@ -80,6 +80,12 @@
       "type": "compress",
       "compression_level": 4,
       "output": "./build/arch-linux.tar.gz"
+    },
+    {
+      "type": "vagrant",
+      "compression_level": 4,
+      "vagrantfile_template": "./Vagrantfile",
+      "output": "./build/{{ user `vm_name` }}_{{ .Provider }}.box"
     }
   ]
 }
