@@ -78,7 +78,7 @@
     {
       "type": "compress",
       "compression_level": 4,
-      "output": "./build/arch-linux.tar.gz"
+      "output": "./build/{{ user `vm_name` }}_{{ .BuilderType }}.tar.gz"
     },
     {
       "type": "vagrant",
