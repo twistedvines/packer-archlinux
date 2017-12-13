@@ -9,7 +9,8 @@
     "ssh_wait_timeout": "1200s",
     "shutdown_command": "shutdown now -P",
     "headless": "true",
-    "vm_name": "arch-linux-build"
+    "vm_name": "arch-linux-build",
+    "minimal_configuration": "false"
   },
 
   "builders": [
@@ -68,7 +69,8 @@
     },
     {
       "type": "shell",
-      "script": "./scripts/arch-install-scripts/configure.sh"
+      "script": "./scripts/arch-install-scripts/configure.sh",
+      "environment_vars": ["MINIMAL_CONFIGURATION={{ user `minimal_configuration` }}"]
     }
   ],
 
