@@ -5,11 +5,14 @@ set -e
 POST_PROCESSORS=
 
 get_opts() {
-  while getopts 'p:a' opt; do
+  while getopts 'amp:' opt; do
     case "$opt" in
       a)
         read -s -p 'desired root password: ' DESIRED_ROOT_PASSWORD
         echo
+        ;;
+      m)
+        MINIMAL_CONFIGURATION=true
         ;;
       p)
         POST_PROCESSORS="${POST_PROCESSORS}${OPTARG} "
@@ -79,6 +82,7 @@ print_info() {
   local comma_separated_post_processors="$( \
     echo "${POST_PROCESSORS}" | sed -e 's/ /, /g' -e 's/\(.*\),/\1./g')"
   echo "Using post-processors $comma_separated_post_processors"
+  [ -n "$MINIMAL_CONFIGURATION" ] && echo 'Using a minimal configuration.'
 }
 
 get_opts "$@"
@@ -105,4 +109,5 @@ echo  "$build_json" | packer build \
   -var "local_iso_path=${iso_path}" \
   -var "vm_name=${vm_name}" \
   -var "desired_root_password=${DESIRED_ROOT_PASSWORD}" \
+  -var "minimal_configuration=${MINIMAL_CONFIGURATION}" \
   -force -
