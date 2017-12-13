@@ -5,11 +5,14 @@ set -e
 POST_PROCESSORS=
 
 get_opts() {
-  while getopts 'amp:' opt; do
+  while getopts 'ai:mp:' opt; do
     case "$opt" in
       a)
         read -s -p 'desired root password: ' DESIRED_ROOT_PASSWORD
         echo
+        ;;
+      i)
+        DESIRED_ROOT_PASSWORD="$OPTARG"
         ;;
       m)
         MINIMAL_CONFIGURATION=true
