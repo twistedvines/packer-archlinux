@@ -2,6 +2,18 @@
 
 set -e
 
+POST_PROCESSORS=
+
+get_opts() {
+  while getopts 'p:' opt; do
+    case "$opt" in
+      p)
+        POST_PROCESSORS="${POST_PROCESSORS}${OPTARG} "
+        ;;
+    esac
+  done
+}
+
 get_project_dir() {
   local project_path
   project_path="${BASH_SOURCE[0]%*/*}"
@@ -49,13 +61,23 @@ get_md5_checksum() {
   echo "$checksums" | grep '.iso' | awk '{print $1}'
 }
 
+print_info() {
+  local comma_separated_post_processors="$( \
+    echo "${POST_PROCESSORS}" | sed -e 's/ /, /g' -e 's/\(.*\),/\1./g')"
+  echo "Using post-processors $comma_separated_post_processors"
+}
+
+get_opts "$@"
+
+print_info
+
 iso_date="$(date +%Y.%m.)01"
 iso_path="$(fetch_latest_iso "$iso_date")"
 
 fetch_latest_iso_checksums
 checksums="$(cat "${project_dir}/iso/md5sums.txt")"
 md5="$(get_md5_checksum "$checksums")"
-post_processors="$(add_relevant_post_processors $@)"
+post_processors="$(add_relevant_post_processors $POST_PROCESSORS)"
 
 vm_name="packer-arch-linux-$(date +%Y%m%d%H%M%S)"
 
