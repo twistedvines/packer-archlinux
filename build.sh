@@ -84,7 +84,12 @@ get_md5_checksum() {
 print_info() {
   local comma_separated_post_processors="$( \
     echo "${POST_PROCESSORS}" | sed -e 's/ /, /g' -e 's/\(.*\),/\1./g')"
-  echo "Using post-processors $comma_separated_post_processors"
+  if [ -n "$comma_separated_post_processors" ]; then
+    echo "Using post-processors $comma_separated_post_processors"
+  else
+    echo "Using no post-processors."
+  fi
+
   if [ -n "$MINIMAL_CONFIGURATION" ]; then
     echo 'Using a minimal configuration.'
   fi
