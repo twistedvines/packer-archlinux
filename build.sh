@@ -102,7 +102,8 @@ checksums="$(cat "${project_dir}/iso/md5sums.txt")"
 md5="$(get_md5_checksum "$checksums")"
 post_processors="$(add_relevant_post_processors $POST_PROCESSORS)"
 
-vm_name="packer-arch-linux-$(date +%Y%m%d%H%M%S)"
+vm_name="packer-arch-linux"
+date="-$(date +%Y%m%d%H%M%S)"
 build_json="$(process_build_json \
   "$(cat "${project_dir}/build.json")" \
   "${post_processors}"
@@ -113,6 +114,7 @@ echo  "$build_json" | packer build \
   -var "iso_checksum=${md5}" \
   -var "local_iso_path=${iso_path}" \
   -var "vm_name=${vm_name}" \
+  -var "date=${date}" \
   -var "desired_root_password=${DESIRED_ROOT_PASSWORD}" \
   -var "minimal_configuration=${MINIMAL_CONFIGURATION}" \
   -force -

@@ -10,6 +10,7 @@
     "shutdown_command": "shutdown now -P",
     "headless": "true",
     "vm_name": "arch-linux-build",
+    "date": "",
     "minimal_configuration": "false",
     "desired_root_password": ""
   },
@@ -34,7 +35,7 @@
         "{{ user `local_iso_path` }}",
         "{{ user `remote_iso_path` }}"
       ],
-      "vm_name": "{{ user `vm_name` }}",
+      "vm_name": "{{ user `vm_name` }}{{ user `date` }}",
       "iso_checksum_type": "{{ user `iso_checksum_type` }}",
       "iso_checksum": "{{ user `iso_checksum` }}",
       "communicator": "ssh",
