@@ -5,11 +5,14 @@ set -e
 POST_PROCESSORS=
 
 get_opts() {
-  while getopts 'ai:mp:' opt; do
+  while getopts 'aci:mp:' opt; do
     case "$opt" in
       a)
         read -s -p 'desired root password: ' DESIRED_ROOT_PASSWORD
         echo
+        ;;
+      c)
+        USE_COLOUR_OUTPUT=true
         ;;
       i)
         DESIRED_ROOT_PASSWORD="$OPTARG"
@@ -122,4 +125,5 @@ echo  "$build_json" | packer build \
   -var "date=${date}" \
   -var "desired_root_password=${DESIRED_ROOT_PASSWORD}" \
   -var "minimal_configuration=${MINIMAL_CONFIGURATION}" \
+  "-color=${USE_COLOUR_OUTPUT:-false}" \
   -force -
